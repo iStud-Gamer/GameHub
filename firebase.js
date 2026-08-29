@@ -3,14 +3,13 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/12.1.0/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAowHU0yK0ircTTHKxT_cKQGFcpePDHUO4",
+  authDomain: "gamehub-61680.firebaseapp.com",
+  projectId: "gamehub-61680",
+  storageBucket: "gamehub-61680.firebasestorage.app",
+  messagingSenderId: "1063927769751",
+  appId: "1:1063927769751:web:b900d70de0bc53916e17d2"
 };
-
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
