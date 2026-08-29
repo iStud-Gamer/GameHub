@@ -2,6 +2,7 @@ import {
     db
 } from "./firebase.js";
 
+
 import {
     collection,
     getDocs,
@@ -14,138 +15,163 @@ const gamesContainer =
     document.getElementById("games");
 
 
-let games = [];
+const gameCount =
+    document.getElementById("game-count");
 
-
-/* LOAD GAMES */
 
 async function loadGames() {
 
     try {
 
-        const gamesQuery = query(
-            collection(db, "games"),
-            orderBy("createdAt", "desc")
-        );
+        const gamesQuery =
+            query(
+                collection(
+                    db,
+                    "games"
+                ),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+            );
 
 
         const snapshot =
-            await getDocs(gamesQuery);
+            await getDocs(
+                gamesQuery
+            );
 
 
-        games = [];
+        gameCount.textContent =
+            `${snapshot.size} games`;
 
 
-        snapshot.forEach(doc => {
-
-            games.push({
-                id: doc.id,
-                ...doc.data()
-            });
-
-        });
+        gamesContainer.innerHTML = "";
 
 
-        displayGames(games);
+        if (snapshot.empty) {
+
+            gamesContainer.innerHTML = `
+                <p class="loading">
+                    No games available.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        snapshot.forEach(
+            gameDoc => {
+
+                const game =
+                    gameDoc.data();
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "game-card";
+
+
+                const icon =
+                    game.icon ||
+                    "https://placehold.co/200x200?text=Game";
+
+
+                const name =
+                    game.name ||
+                    "Unnamed Game";
+
+
+                const description =
+                    game.description ||
+                    "No description available.";
+
+
+                const version =
+                    game.version ||
+                    "Unknown";
+
+
+                const download =
+                    game.download ||
+                    "#";
+
+
+                card.innerHTML = `
+
+                    <img
+                        src="${icon}"
+                        alt="${name}"
+                        loading="lazy"
+                    >
+
+                    <div class="game-info">
+
+                        <h2>
+                            ${name}
+                        </h2>
+
+                        <p>
+                            ${description}
+                        </p>
+
+                        <small>
+                            Version ${version}
+                        </small>
+
+                        <br>
+
+                        <a
+                            href="${download}"
+                            class="download-btn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Download
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                gamesContainer.appendChild(
+                    card
+                );
+
+            }
+        );
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error loading games:",
+            error
+        );
 
-        gamesContainer.innerHTML = `
-            <p>Couldn't load games.</p>
-        `;
-
-    }
-
-}
-
-
-/* DISPLAY GAMES */
-
-function displayGames(list) {
-
-    gamesContainer.innerHTML = "";
-
-
-    const gameCount =
-        document.getElementById("game-count");
-
-
-    if (gameCount) {
 
         gameCount.textContent =
-            `${list.length} games`;
+            "Error";
 
-    }
-
-
-    if (list.length === 0) {
 
         gamesContainer.innerHTML = `
-            <p>No games available.</p>
-        `;
 
-        return;
+            <p class="loading">
+                Couldn't load games.
+            </p>
+
+        `;
 
     }
-
-
-    list.forEach(game => {
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "game-card";
-
-
-        card.innerHTML = `
-
-            <img
-                src="${game.icon}"
-                alt="${game.name}"
-            >
-
-            <div class="game-info">
-
-                <h2>
-                    ${game.name}
-                </h2>
-
-                <p>
-                    ${game.description}
-                </p>
-
-                <small>
-                    Version ${game.version}
-                </small>
-
-                <br><br>
-
-                <a
-                    href="${game.download}"
-                    class="download-btn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Download
-                </a>
-
-            </div>
-
-        `;
-
-
-        gamesContainer.appendChild(card);
-
-    });
 
 }
 
-
-/* START */
 
 loadGames();
