@@ -2,129 +2,328 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: #0b0d12;
+    color: #ffffff;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    border-bottom: 1px solid #20232c;
+
+    background: #0b0d12;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.logo span {
+    margin-left: 6px;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: #999da7;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+nav a:hover {
     color: white;
 }
 
-header {
+
+/* HERO */
+
+.hero {
     text-align: center;
-    padding: 50px 20px 30px;
+
+    padding: 80px 20px 60px;
+
+    border-bottom: 1px solid #20232c;
 }
 
-header h1 {
+.hero h1 {
     margin: 0;
-    font-size: 42px;
+
+    font-size: clamp(32px, 5vw, 52px);
+
+    letter-spacing: -1px;
 }
 
-header p {
-    color: #8b8f98;
-    margin-top: 10px;
+.hero p {
+    color: #9297a3;
+
+    font-size: 16px;
+
+    margin: 15px 0 30px;
 }
 
-main {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
-}
+
+/* SEARCH */
 
 .search-box {
-    margin-bottom: 30px;
+    max-width: 600px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 18px;
+
+    background: #151821;
+
+    border: 1px solid #292e3a;
+
+    border-radius: 12px;
+
+    transition: 0.2s;
+}
+
+.search-box:focus-within {
+    border-color: #555c6c;
+}
+
+.search-box span {
+    color: #777e8c;
+
+    font-size: 18px;
 }
 
 .search-box input {
     width: 100%;
-    padding: 16px 20px;
-    border: 1px solid #252934;
-    border-radius: 12px;
+
+    padding: 17px 12px;
+
+    border: none;
+
     outline: none;
-    background: #151821;
+
+    background: transparent;
+
     color: white;
-    font-size: 16px;
+
+    font-size: 15px;
 }
 
 .search-box input::placeholder {
-    color: #777;
+    color: #666b76;
 }
+
+
+/* CONTENT */
+
+.content {
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding: 45px 20px;
+}
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+}
+
+#game-count {
+    color: #707580;
+
+    font-size: 13px;
+}
+
+
+/* GAME GRID */
 
 #games {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(300px, 1fr));
+
+    gap: 18px;
 }
+
+
+/* GAME CARD */
 
 .game-card {
     display: flex;
+
     gap: 15px;
+
     padding: 18px;
+
     background: #151821;
+
     border: 1px solid #242833;
-    border-radius: 16px;
-    transition: 0.2s;
+
+    border-radius: 15px;
+
+    transition:
+        transform 0.2s,
+        border-color 0.2s;
 }
 
 .game-card:hover {
-    transform: translateY(-4px);
-    border-color: #444b5a;
+    transform: translateY(-3px);
+
+    border-color: #454b59;
 }
 
 .game-card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 16px;
+    width: 75px;
+
+    height: 75px;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
     object-fit: cover;
 }
 
 .game-info {
+    min-width: 0;
+
     flex: 1;
 }
 
 .game-info h2 {
-    margin: 0 0 6px;
-    font-size: 19px;
+    margin: 0 0 5px;
+
+    font-size: 18px;
 }
 
 .game-info span {
     display: inline-block;
+
+    color: #8c929e;
+
     font-size: 12px;
-    color: #aaa;
-    margin-bottom: 8px;
+
+    margin-bottom: 6px;
 }
 
 .game-info p {
     margin: 5px 0;
-    color: #9da1aa;
-    font-size: 14px;
+
+    color: #9297a3;
+
+    font-size: 13px;
+
     line-height: 1.4;
 }
 
 .game-info small {
-    color: #666;
+    color: #666c78;
+
+    font-size: 11px;
 }
 
 .download-btn {
     display: inline-block;
-    padding: 9px 15px;
-    border-radius: 8px;
-    background: white;
-    color: black;
+
+    margin-top: 10px;
+
+    padding: 8px 13px;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #000000;
+
     text-decoration: none;
-    font-size: 13px;
+
+    font-size: 12px;
+
     font-weight: bold;
+
+    transition: 0.2s;
 }
+
+.download-btn:hover {
+    opacity: 0.8;
+}
+
+
+/* FOOTER */
 
 footer {
     text-align: center;
-    padding: 50px 20px;
-    color: #666;
+
+    padding: 55px 20px;
+
+    border-top: 1px solid #20232c;
+
+    color: #666c78;
+
+    font-size: 13px;
 }
+
+footer strong {
+    color: #ffffff;
+
+    font-size: 15px;
+}
+
+
+/* MOBILE */
 
 @media (max-width: 600px) {
 
-    header h1 {
-        font-size: 34px;
+    .navbar {
+        padding: 0 20px;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 60px 15px 45px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .content {
+        padding: 35px 15px;
     }
 
     #games {
@@ -132,6 +331,7 @@ footer {
     }
 
     .game-card {
-        padding: 14px;
+        padding: 15px;
     }
+
 }
