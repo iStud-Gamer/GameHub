@@ -1,5 +1,4 @@
 const gamesContainer = document.getElementById("games");
-const search = document.getElementById("search");
 
 let games = [];
 
@@ -68,17 +67,6 @@ function displayGames(list) {
     });
 }
 
-search.addEventListener("input", () => {
-
-    const query = search.value.toLowerCase();
-
-    const filteredGames = games.filter(game =>
-        game.name.toLowerCase().includes(query) ||
-        game.category.toLowerCase().includes(query)
-    );
-
-    displayGames(filteredGames);
-});
 
 loadGames();
 const categoryButtons =
