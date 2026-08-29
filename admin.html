@@ -22,22 +22,32 @@
 
 <body>
 
+
     <main class="admin-container">
+
 
         <div class="admin-header">
 
             <h1>GameHub Admin</h1>
 
-            <p>Manage your games</p>
+            <p>
+                Manage your games
+            </p>
 
         </div>
 
 
         <!-- LOGIN -->
 
-        <section id="login-section" class="admin-box">
+        <section
+            id="login-section"
+            class="admin-box"
+        >
 
-            <h2>Admin Login</h2>
+            <h2>
+                Admin Login
+            </h2>
+
 
             <input
                 type="email"
@@ -45,15 +55,18 @@
                 placeholder="Email"
             >
 
+
             <input
                 type="password"
                 id="password"
                 placeholder="Password"
             >
 
+
             <button id="login-btn">
                 Login
             </button>
+
 
             <p id="login-message"></p>
 
@@ -68,11 +81,18 @@
             style="display: none;"
         >
 
+
             <div class="admin-top">
 
-                <h2>Add Game</h2>
+                <h2>
+                    Add Game
+                </h2>
 
-                <button id="logout-btn">
+
+                <button
+                    id="logout-btn"
+                    class="logout-btn"
+                >
                     Logout
                 </button>
 
@@ -120,24 +140,44 @@
 
             <p id="game-message"></p>
 
+
         </section>
-<section class="admin-box">
 
-    <div class="admin-top">
 
-        <h2>Existing Games</h2>
+        <!-- EXISTING GAMES -->
 
-        <span id="admin-game-count"></span>
+        <section
+            id="games-section"
+            class="admin-box"
+            style="display: none;"
+        >
 
-    </div>
 
-    <div id="admin-games">
+            <div class="admin-top">
 
-        <p>Loading games...</p>
+                <h2>
+                    Existing Games
+                </h2>
 
-    </div>
 
-</section>
+                <span id="admin-game-count">
+                </span>
+
+            </div>
+
+
+            <div id="admin-games">
+
+                <p>
+                    Loading games...
+                </p>
+
+            </div>
+
+
+        </section>
+
+
     </main>
 
 
@@ -145,6 +185,7 @@
         type="module"
         src="admin.js"
     ></script>
+
 
 </body>
 
