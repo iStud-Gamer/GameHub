@@ -49,8 +49,6 @@ function displayGames(list) {
             <div class="game-info">
                 <h2>${game.name}</h2>
 
-                <span>${game.category}</span>
-
                 <p>${game.description}</p>
 
                 <small>Version ${game.version}</small>
