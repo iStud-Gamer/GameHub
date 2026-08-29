@@ -28,6 +28,9 @@ function displayGames(list) {
 
     gamesContainer.innerHTML = "";
 
+    document.getElementById("game-count").textContent =
+        `${list.length} games`;
+
     if (list.length === 0) {
         gamesContainer.innerHTML = `
             <p>No games found.</p>
