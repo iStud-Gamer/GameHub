@@ -9,6 +9,11 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import {
+    collection,
+    addDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const loginSection =
     document.getElementById("login-section");
@@ -34,6 +39,26 @@ const logoutButton =
 const loginMessage =
     document.getElementById("login-message");
 
+const gameName =
+    document.getElementById("game-name");
+
+const gameVersion =
+    document.getElementById("game-version");
+
+const gameDescription =
+    document.getElementById("game-description");
+
+const gameIcon =
+    document.getElementById("game-icon");
+
+const gameDownload =
+    document.getElementById("game-download");
+
+const addGameButton =
+    document.getElementById("add-game-btn");
+
+const gameMessage =
+    document.getElementById("game-message");
 
 /* LOGIN */
 
@@ -100,6 +125,80 @@ logoutButton.addEventListener(
     async () => {
 
         await signOut(auth);
+
+    }
+);
+/* ADD GAME */
+
+addGameButton.addEventListener(
+    "click",
+    async () => {
+
+        const name =
+            gameName.value.trim();
+
+        const version =
+            gameVersion.value.trim();
+
+        const description =
+            gameDescription.value.trim();
+
+        const icon =
+            gameIcon.value.trim();
+
+        const download =
+            gameDownload.value.trim();
+
+
+        if (
+            !name ||
+            !version ||
+            !description ||
+            !icon ||
+            !download
+        ) {
+
+            gameMessage.textContent =
+                "Please fill in all fields.";
+
+            return;
+        }
+
+
+        try {
+
+            await addDoc(
+                collection(db, "games"),
+                {
+                    name: name,
+                    version: version,
+                    description: description,
+                    icon: icon,
+                    download: download,
+                    createdAt: serverTimestamp()
+                }
+            );
+
+
+            gameMessage.textContent =
+                "Game added successfully!";
+
+
+            gameName.value = "";
+            gameVersion.value = "";
+            gameDescription.value = "";
+            gameIcon.value = "";
+            gameDownload.value = "";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            gameMessage.textContent =
+                "Failed to add game.";
+
+        }
 
     }
 );
