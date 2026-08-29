@@ -5,45 +5,133 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f1115;
+    background: #0b0d12;
     color: white;
 }
 
 header {
     text-align: center;
-    padding: 40px 20px;
+    padding: 50px 20px 30px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 36px;
+    font-size: 42px;
 }
 
 header p {
-    color: #999;
+    color: #8b8f98;
+    margin-top: 10px;
 }
 
 main {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     padding: 20px;
 }
 
+.search-box {
+    margin-bottom: 30px;
+}
+
 .search-box input {
     width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
+    padding: 16px 20px;
+    border: 1px solid #252934;
+    border-radius: 12px;
     outline: none;
+    background: #151821;
+    color: white;
     font-size: 16px;
 }
 
+.search-box input::placeholder {
+    color: #777;
+}
+
 #games {
-    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    display: flex;
+    gap: 15px;
+    padding: 18px;
+    background: #151821;
+    border: 1px solid #242833;
+    border-radius: 16px;
+    transition: 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    border-color: #444b5a;
+}
+
+.game-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.game-info {
+    flex: 1;
+}
+
+.game-info h2 {
+    margin: 0 0 6px;
+    font-size: 19px;
+}
+
+.game-info span {
+    display: inline-block;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+.game-info p {
+    margin: 5px 0;
+    color: #9da1aa;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.game-info small {
+    color: #666;
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 footer {
     text-align: center;
-    padding: 40px;
-    color: #777;
+    padding: 50px 20px;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 34px;
+    }
+
+    #games {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        padding: 14px;
+    }
 }
