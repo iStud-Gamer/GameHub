@@ -1,18 +1,34 @@
 [
   {
-    "name": "Example Game",
+    "name": "GTA San Andreas",
     "version": "1.0",
     "category": "Action",
-    "description": "An example game for GameHub.",
-    "icon": "https://via.placeholder.com/100",
+    "description": "Open-world action adventure game.",
+    "icon": "https://placehold.co/200x200/151821/ffffff?text=GTA",
     "download": "#"
   },
   {
-    "name": "Another Game",
-    "version": "2.0",
+    "name": "Minecraft",
+    "version": "1.21",
     "category": "Adventure",
-    "description": "Another example game.",
-    "icon": "https://via.placeholder.com/100",
+    "description": "Build, explore and survive in an endless world.",
+    "icon": "https://placehold.co/200x200/151821/ffffff?text=MC",
+    "download": "#"
+  },
+  {
+    "name": "Free Fire",
+    "version": "1.0",
+    "category": "Battle Royale",
+    "description": "Fast-paced battle royale survival game.",
+    "icon": "https://placehold.co/200x200/151821/ffffff?text=FF",
+    "download": "#"
+  },
+  {
+    "name": "Subway Surfers",
+    "version": "3.0",
+    "category": "Arcade",
+    "description": "Run, dodge obstacles and collect coins.",
+    "icon": "https://placehold.co/200x200/151821/ffffff?text=SS",
     "download": "#"
   }
 ]
