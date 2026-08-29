@@ -165,6 +165,49 @@ nav a:hover {
     font-size: 13px;
 }
 
+/* CATEGORIES */
+
+.categories {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+}
+
+.category {
+    flex-shrink: 0;
+
+    padding: 9px 15px;
+
+    border: 1px solid #292e3a;
+
+    border-radius: 8px;
+
+    background: #151821;
+
+    color: #8f949e;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: 0.2s;
+}
+
+.category:hover {
+    color: white;
+
+    border-color: #454b59;
+}
+
+.category.active {
+    background: white;
+
+    color: black;
+
+    border-color: white;
+}
 
 /* GAME GRID */
 
