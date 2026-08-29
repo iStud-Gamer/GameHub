@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -14,23 +13,22 @@
 
     <link
         rel="stylesheet"
-        href="style.css"
+        href="./style.css"
     >
-
 </head>
-
 
 <body>
 
     <header class="navbar">
 
-        <div class="logo">
-            🎮 <span>GameHub</span>
-        </div>
+        <a href="./index.html" class="logo">
+            🎮 GameHub
+        </a>
 
         <nav>
-            <a href="#">Home</a>
+            <a href="./index.html">Home</a>
             <a href="#games">Games</a>
+            <a href="./admin.html">Admin</a>
         </nav>
 
     </header>
@@ -55,11 +53,20 @@
 
                 <h2>Games</h2>
 
-                <span id="game-count"></span>
+                <span id="game-count">
+                    Loading...
+                </span>
 
             </div>
 
-            <section id="games"></section>
+
+            <section id="games">
+
+                <p class="loading">
+                    Loading games...
+                </p>
+
+            </section>
 
         </section>
 
@@ -70,16 +77,20 @@
 
         <strong>GameHub</strong>
 
-        <p>Discover. Download. Play.</p>
+        <p>
+            Discover. Download. Play.
+        </p>
 
-        <p>© 2026 GameHub</p>
+        <p>
+            © 2026 GameHub
+        </p>
 
     </footer>
 
 
     <script
         type="module"
-        src="script.js"
+        src="./script.js"
     ></script>
 
 </body>
