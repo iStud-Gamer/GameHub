@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example Game",
+    "version": "1.0",
+    "category": "Action",
+    "description": "An example game for GameHub.",
+    "icon": "https://via.placeholder.com/100",
+    "download": "#"
+  },
+  {
+    "name": "Another Game",
+    "version": "2.0",
+    "category": "Adventure",
+    "description": "Another example game.",
+    "icon": "https://via.placeholder.com/100",
+    "download": "#"
+  }
+]
