@@ -18,6 +18,7 @@ body {
 
 .navbar {
     height: 70px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -25,8 +26,6 @@ body {
     padding: 0 6%;
 
     border-bottom: 1px solid #20232c;
-
-    background: #0b0d12;
 }
 
 .logo {
@@ -59,7 +58,7 @@ nav a:hover {
 .hero {
     text-align: center;
 
-    padding: 80px 20px 60px;
+    padding: 75px 20px 60px;
 
     border-bottom: 1px solid #20232c;
 }
@@ -67,80 +66,28 @@ nav a:hover {
 .hero h1 {
     margin: 0;
 
-    font-size: clamp(32px, 5vw, 52px);
+    font-size: clamp(38px, 6vw, 58px);
 
-    letter-spacing: -1px;
+    letter-spacing: -2px;
 }
 
 .hero p {
-    color: #9297a3;
+    margin-top: 15px;
+
+    color: #858a96;
 
     font-size: 16px;
-
-    margin: 15px 0 30px;
-}
-
-
-/* SEARCH */
-
-.search-box {
-    max-width: 600px;
-
-    margin: auto;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 18px;
-
-    background: #151821;
-
-    border: 1px solid #292e3a;
-
-    border-radius: 12px;
-
-    transition: 0.2s;
-}
-
-.search-box:focus-within {
-    border-color: #555c6c;
-}
-
-.search-box span {
-    color: #777e8c;
-
-    font-size: 18px;
-}
-
-.search-box input {
-    width: 100%;
-
-    padding: 17px 12px;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    color: white;
-
-    font-size: 15px;
-}
-
-.search-box input::placeholder {
-    color: #666b76;
 }
 
 
 /* CONTENT */
 
 .content {
-    max-width: 1100px;
+    max-width: 1050px;
 
     margin: auto;
 
-    padding: 45px 20px;
+    padding: 50px 20px;
 }
 
 .section-header {
@@ -156,58 +103,15 @@ nav a:hover {
 .section-header h2 {
     margin: 0;
 
-    font-size: 22px;
+    font-size: 23px;
 }
 
 #game-count {
-    color: #707580;
+    color: #666c78;
 
     font-size: 13px;
 }
 
-/* CATEGORIES */
-
-.categories {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    margin-bottom: 25px;
-    padding-bottom: 5px;
-}
-
-.category {
-    flex-shrink: 0;
-
-    padding: 9px 15px;
-
-    border: 1px solid #292e3a;
-
-    border-radius: 8px;
-
-    background: #151821;
-
-    color: #8f949e;
-
-    cursor: pointer;
-
-    font-size: 13px;
-
-    transition: 0.2s;
-}
-
-.category:hover {
-    color: white;
-
-    border-color: #454b59;
-}
-
-.category.active {
-    background: white;
-
-    color: black;
-
-    border-color: white;
-}
 
 /* GAME GRID */
 
@@ -215,7 +119,7 @@ nav a:hover {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(300px, 1fr));
+        repeat(auto-fill, minmax(320px, 1fr));
 
     gap: 18px;
 }
@@ -226,83 +130,84 @@ nav a:hover {
 .game-card {
     display: flex;
 
-    gap: 15px;
+    gap: 17px;
 
     padding: 18px;
 
-    background: #151821;
+    background: #14171e;
 
     border: 1px solid #242833;
 
     border-radius: 15px;
 
-    transition:
-        transform 0.2s,
-        border-color 0.2s;
+    transition: 0.2s ease;
 }
 
 .game-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
 
-    border-color: #454b59;
+    border-color: #454b58;
+
+    background: #171a22;
 }
 
-.game-card img {
-    width: 75px;
 
-    height: 75px;
+/* GAME ICON */
+
+.game-card img {
+    width: 82px;
+
+    height: 82px;
 
     flex-shrink: 0;
 
-    border-radius: 14px;
-
     object-fit: cover;
+
+    border-radius: 16px;
+
+    background: #20232b;
 }
 
-.game-info {
-    min-width: 0;
 
+/* GAME INFO */
+
+.game-info {
     flex: 1;
+
+    min-width: 0;
 }
 
 .game-info h2 {
-    margin: 0 0 5px;
+    margin: 2px 0 7px;
 
     font-size: 18px;
 }
 
-.game-info span {
-    display: inline-block;
-
-    color: #8c929e;
-
-    font-size: 12px;
-
-    margin-bottom: 6px;
-}
-
 .game-info p {
-    margin: 5px 0;
+    margin: 0 0 7px;
 
-    color: #9297a3;
+    color: #8e939e;
 
     font-size: 13px;
 
-    line-height: 1.4;
+    line-height: 1.45;
 }
 
 .game-info small {
-    color: #666c78;
+    color: #5f6570;
 
     font-size: 11px;
 }
 
+
+/* DOWNLOAD BUTTON */
+
 .download-btn {
     display: inline-block;
 
-    margin-top: 10px;
+    margin-top: 11px;
 
-    padding: 8px 13px;
+    padding: 8px 14px;
 
     border-radius: 7px;
 
@@ -320,7 +225,9 @@ nav a:hover {
 }
 
 .download-btn:hover {
-    opacity: 0.8;
+    transform: scale(1.03);
+
+    opacity: 0.85;
 }
 
 
@@ -333,13 +240,13 @@ footer {
 
     border-top: 1px solid #20232c;
 
-    color: #666c78;
+    color: #626873;
 
     font-size: 13px;
 }
 
 footer strong {
-    color: #ffffff;
+    color: white;
 
     font-size: 15px;
 }
@@ -347,7 +254,7 @@ footer strong {
 
 /* MOBILE */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 
     .navbar {
         padding: 0 20px;
@@ -358,11 +265,11 @@ footer strong {
     }
 
     .hero {
-        padding: 60px 15px 45px;
+        padding: 60px 20px 45px;
     }
 
     .hero h1 {
-        font-size: 32px;
+        font-size: 40px;
     }
 
     .content {
@@ -377,4 +284,8 @@ footer strong {
         padding: 15px;
     }
 
+    .game-card img {
+        width: 70px;
+        height: 70px;
+    }
 }
