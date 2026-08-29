@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GameHub Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="admin-container">
+
+        <div class="admin-header">
+
+            <h1>GameHub Admin</h1>
+
+            <p>Manage your games</p>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <section id="login-section" class="admin-box">
+
+            <h2>Admin Login</h2>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email"
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+            >
+
+            <button id="login-btn">
+                Login
+            </button>
+
+            <p id="login-message"></p>
+
+        </section>
+
+
+        <!-- ADMIN PANEL -->
+
+        <section
+            id="admin-section"
+            class="admin-box"
+            style="display: none;"
+        >
+
+            <div class="admin-top">
+
+                <h2>Add Game</h2>
+
+                <button id="logout-btn">
+                    Logout
+                </button>
+
+            </div>
+
+
+            <input
+                type="text"
+                id="game-name"
+                placeholder="Game name"
+            >
+
+
+            <input
+                type="text"
+                id="game-version"
+                placeholder="Version"
+            >
+
+
+            <textarea
+                id="game-description"
+                placeholder="Game description"
+            ></textarea>
+
+
+            <input
+                type="url"
+                id="game-icon"
+                placeholder="Game icon URL"
+            >
+
+
+            <input
+                type="url"
+                id="game-download"
+                placeholder="Download URL"
+            >
+
+
+            <button id="add-game-btn">
+                Add Game
+            </button>
+
+
+            <p id="game-message"></p>
+
+        </section>
+
+    </main>
+
+
+    <script
+        type="module"
+        src="admin.js"
+    ></script>
+
+</body>
+
+</html>
