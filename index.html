@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,32 +12,75 @@
 
 <body>
 
-    <header>
-        <h1>GameHub</h1>
-        <p>Your Game Collection</p>
+    <header class="navbar">
+
+        <div class="logo">
+            🎮 <span>GameHub</span>
+        </div>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#games">Games</a>
+        </nav>
+
     </header>
+
 
     <main>
 
-        <div class="search-box">
-            <input
-                type="text"
-                id="search"
-                placeholder="Search games..."
-            >
-        </div>
+        <section class="hero">
 
-        <section id="games">
-            <!-- Games will appear here -->
+            <h1>Discover Your Next Game</h1>
+
+            <p>
+                Explore games, updates and downloads in one place.
+            </p>
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search games..."
+                >
+
+            </div>
+
+        </section>
+
+
+        <section class="content">
+
+            <div class="section-header">
+
+                <h2>Games</h2>
+
+                <span id="game-count"></span>
+
+            </div>
+
+            <section id="games"></section>
+
         </section>
 
     </main>
 
+
     <footer>
+
+        <strong>GameHub</strong>
+
+        <p>Discover. Download. Play.</p>
+
         <p>© 2026 GameHub</p>
+
     </footer>
+
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
