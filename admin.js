@@ -23,8 +23,9 @@ import {
 
 
 
-/* ELEMENTS */
-
+/* =========================
+   ELEMENTS
+========================= */
 
 const loginSection =
     document.getElementById(
@@ -129,8 +130,9 @@ const adminGameCount =
 
 
 
-/* LOGIN */
-
+/* =========================
+   LOGIN
+========================= */
 
 loginButton.addEventListener(
     "click",
@@ -176,8 +178,7 @@ loginButton.addEventListener(
 
 
             loginMessage.textContent =
-                "Login failed: " +
-                error.message;
+                "Login failed. Check your email and password.";
 
         }
 
@@ -186,8 +187,9 @@ loginButton.addEventListener(
 
 
 
-/* LOGOUT */
-
+/* =========================
+   LOGOUT
+========================= */
 
 logoutButton.addEventListener(
     "click",
@@ -208,8 +210,9 @@ logoutButton.addEventListener(
 
 
 
-/* AUTH STATE */
-
+/* =========================
+   AUTH STATE
+========================= */
 
 onAuthStateChanged(
     auth,
@@ -252,8 +255,9 @@ onAuthStateChanged(
 
 
 
-/* ADD GAME */
-
+/* =========================
+   ADD GAME
+========================= */
 
 addGameButton.addEventListener(
     "click",
@@ -297,6 +301,14 @@ addGameButton.addEventListener(
 
         try {
 
+            addGameButton.disabled =
+                true;
+
+
+            addGameButton.textContent =
+                "Adding...";
+
+
             await addDoc(
                 collection(
                     db,
@@ -336,7 +348,7 @@ addGameButton.addEventListener(
             gameDownload.value = "";
 
 
-            loadAdminGames();
+            await loadAdminGames();
 
 
         } catch (error) {
@@ -347,6 +359,15 @@ addGameButton.addEventListener(
             gameMessage.textContent =
                 "Failed to add game.";
 
+        } finally {
+
+            addGameButton.disabled =
+                false;
+
+
+            addGameButton.textContent =
+                "Add Game";
+
         }
 
     }
@@ -354,8 +375,9 @@ addGameButton.addEventListener(
 
 
 
-/* LOAD ADMIN GAMES */
-
+/* =========================
+   LOAD ADMIN GAMES
+========================= */
 
 async function loadAdminGames() {
 
@@ -415,19 +437,19 @@ async function loadAdminGames() {
                     >
 
                         <img
-                            src="${game.icon}"
-                            alt="${game.name}"
+                            src="${game.icon || "https://placehold.co/100"}"
+                            alt="${game.name || "Game"}"
                         >
 
                         <div>
 
                             <h3>
-                                ${game.name}
+                                ${game.name || "Unnamed Game"}
                             </h3>
 
                             <p>
                                 Version
-                                ${game.version}
+                                ${game.version || "Unknown"}
                             </p>
 
                         </div>
@@ -468,8 +490,7 @@ async function loadAdminGames() {
 
 
 
-        /* EDIT BUTTONS */
-
+        /* EDIT */
 
         document
             .querySelectorAll(
@@ -494,8 +515,7 @@ async function loadAdminGames() {
 
 
 
-        /* DELETE BUTTONS */
-
+        /* DELETE */
 
         document
             .querySelectorAll(
@@ -533,8 +553,9 @@ async function loadAdminGames() {
 
 
 
-/* EDIT GAME */
-
+/* =========================
+   EDIT GAME
+========================= */
 
 async function editGame(
     gameId
@@ -546,7 +567,10 @@ async function editGame(
         );
 
 
-    if (!newName) {
+    if (
+        newName === null ||
+        !newName.trim()
+    ) {
 
         return;
 
@@ -575,7 +599,7 @@ async function editGame(
         );
 
 
-        loadAdminGames();
+        await loadAdminGames();
 
 
     } catch (error) {
@@ -593,20 +617,21 @@ async function editGame(
 
 
 
-/* DELETE GAME */
-
+/* =========================
+   DELETE GAME
+========================= */
 
 async function deleteGame(
     gameId
 ) {
 
-    const confirmDelete =
+    const confirmed =
         confirm(
             "Are you sure you want to delete this game?"
         );
 
 
-    if (!confirmDelete) {
+    if (!confirmed) {
 
         return;
 
@@ -629,7 +654,7 @@ async function deleteGame(
         );
 
 
-        loadAdminGames();
+        await loadAdminGames();
 
 
     } catch (error) {
