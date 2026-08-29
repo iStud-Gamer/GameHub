@@ -81,3 +81,36 @@ search.addEventListener("input", () => {
 });
 
 loadGames();
+const categoryButtons =
+    document.querySelectorAll(".category");
+
+categoryButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        categoryButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        const category =
+            button.dataset.category;
+
+        if (category === "All") {
+
+            displayGames(games);
+
+        } else {
+
+            const filteredGames =
+                games.filter(game =>
+                    game.category === category
+                );
+
+            displayGames(filteredGames);
+        }
+
+    });
+
+});
