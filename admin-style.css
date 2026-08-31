@@ -1,0 +1,460 @@
+/* =========================================
+   GAMEHUB ADMIN
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: #090b0f;
+    color: #f1f3f5;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.admin-container {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding:
+        40px 20px 70px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.admin-header {
+    text-align: center;
+
+    padding:
+        10px 0 35px;
+}
+
+.admin-header h1 {
+    font-size: 30px;
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
+
+    margin-bottom: 7px;
+}
+
+.admin-header p {
+    color: #7f8792;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   BOX
+========================================= */
+
+.admin-box {
+    background: #101318;
+
+    border:
+        1px solid #1d222a;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    margin-bottom: 18px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.admin-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.admin-top h2 {
+    font-size: 18px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.admin-box input,
+.admin-box textarea {
+    width: 100%;
+
+    display: block;
+
+    background: #090c10;
+
+    color: #f1f3f5;
+
+    border:
+        1px solid #252b34;
+
+    border-radius: 9px;
+
+    padding:
+        12px 13px;
+
+    margin-bottom: 12px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.admin-box textarea {
+    min-height: 105px;
+
+    resize: vertical;
+}
+
+.admin-box input::placeholder,
+.admin-box textarea::placeholder {
+    color: #626b77;
+}
+
+.admin-box input:focus,
+.admin-box textarea:focus {
+    border-color: #5869f2;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(88, 105, 242, 0.12);
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.admin-box button {
+    border: none;
+
+    border-radius: 8px;
+
+    padding:
+        10px 16px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    background: #5869f2;
+
+    color: #ffffff;
+
+    transition:
+        background 0.2s,
+        transform 0.15s,
+        opacity 0.15s;
+}
+
+.admin-box button:hover {
+    background: #6878ff;
+
+    transform:
+        translateY(-1px);
+}
+
+.admin-box button:active {
+    transform:
+        translateY(0);
+}
+
+.admin-box button:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   LOGOUT / CANCEL
+========================================= */
+
+.logout-btn,
+.cancel-btn {
+    background: #1b2027 !important;
+
+    border:
+        1px solid #2a3039 !important;
+
+    color: #dce1e7 !important;
+}
+
+.logout-btn:hover,
+.cancel-btn:hover {
+    background: #252b34 !important;
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+#login-message,
+#game-message,
+#edit-message {
+    margin-top: 13px;
+
+    color: #7f8792;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   EXISTING GAMES
+========================================= */
+
+#admin-games {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.admin-game {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px;
+
+    background: #090c10;
+
+    border:
+        1px solid #1d232b;
+
+    border-radius: 11px;
+}
+
+
+/* =========================================
+   GAME INFO
+========================================= */
+
+.admin-game-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+}
+
+.admin-game-info img {
+    width: 60px;
+
+    height: 60px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 11px;
+
+    background: #171b21;
+
+    border:
+        1px solid #292f38;
+}
+
+.admin-game-info h3 {
+    color: #f1f3f5;
+
+    font-size: 15px;
+
+    font-weight: 650;
+
+    margin-bottom: 3px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.admin-game-info p {
+    color: #68717d;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.admin-game-actions {
+    display: flex;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+}
+
+.admin-game-actions button {
+    padding:
+        8px 12px;
+
+    font-size: 12px;
+}
+
+.admin-game-actions .edit-btn {
+    background: #5869f2;
+}
+
+.admin-game-actions .delete-btn {
+    background: #a83d4a;
+}
+
+.admin-game-actions .delete-btn:hover {
+    background: #c94857;
+}
+
+
+/* =========================================
+   EDIT SECTION
+========================================= */
+
+.edit-section {
+    border-color: #30394b;
+}
+
+
+/* =========================================
+   PREVIEW
+========================================= */
+
+.edit-preview {
+    margin:
+        4px 0 15px;
+}
+
+.edit-preview img {
+    width: 85px;
+
+    height: 85px;
+
+    object-fit: cover;
+
+    border-radius: 13px;
+
+    background: #090c10;
+
+    border:
+        1px solid #292f38;
+
+    display: none;
+}
+
+
+/* =========================================
+   GAME COUNT
+========================================= */
+
+#admin-game-count {
+    color: #68717d;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .admin-container {
+        padding:
+            25px 14px 50px;
+    }
+
+    .admin-header h1 {
+        font-size: 27px;
+    }
+
+    .admin-box {
+        padding: 17px;
+    }
+
+    .admin-top {
+        align-items: flex-start;
+    }
+
+    .admin-game {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .admin-game-actions {
+        width: 100%;
+    }
+
+    .admin-game-actions button {
+        flex: 1;
+    }
+
+}
