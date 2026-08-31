@@ -1,6 +1,7 @@
 import {
     auth,
-    db
+    db,
+    storage
 } from "./firebase.js";
 
 
@@ -23,6 +24,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
 
 /* ========================================
    LOGIN
@@ -31,26 +39,20 @@ import {
 const loginSection =
     document.getElementById("login-section");
 
-
 const adminSection =
     document.getElementById("admin-section");
-
 
 const email =
     document.getElementById("email");
 
-
 const password =
     document.getElementById("password");
-
 
 const loginButton =
     document.getElementById("login-btn");
 
-
 const logoutButton =
     document.getElementById("logout-btn");
-
 
 const loginMessage =
     document.getElementById("login-message");
@@ -64,26 +66,23 @@ const loginMessage =
 const gameName =
     document.getElementById("game-name");
 
-
 const gameVersion =
     document.getElementById("game-version");
-
 
 const gameDescription =
     document.getElementById("game-description");
 
+const gameIconFile =
+    document.getElementById("game-icon-file");
 
-const gameIcon =
-    document.getElementById("game-icon");
-
+const gameIconPreview =
+    document.getElementById("game-icon-preview");
 
 const gameDownload =
     document.getElementById("game-download");
 
-
 const addGameButton =
     document.getElementById("add-game-btn");
-
 
 const gameMessage =
     document.getElementById("game-message");
@@ -97,7 +96,6 @@ const gameMessage =
 const adminGames =
     document.getElementById("admin-games");
 
-
 const adminGameCount =
     document.getElementById("admin-game-count");
 
@@ -110,53 +108,32 @@ const adminGameCount =
 const editSection =
     document.getElementById("edit-section");
 
-
 const editGameName =
     document.getElementById("edit-game-name");
-
 
 const editGameVersion =
     document.getElementById("edit-game-version");
 
-
 const editGameDescription =
-    document.getElementById(
-        "edit-game-description"
-    );
+    document.getElementById("edit-game-description");
 
-
-const editGameIcon =
-    document.getElementById("edit-game-icon");
-
-
-const editGameDownload =
-    document.getElementById(
-        "edit-game-download"
-    );
-
+const editGameIconFile =
+    document.getElementById("edit-game-icon-file");
 
 const editPreviewImage =
-    document.getElementById(
-        "edit-preview-image"
-    );
+    document.getElementById("edit-preview-image");
 
+const editGameDownload =
+    document.getElementById("edit-game-download");
 
 const saveEditButton =
-    document.getElementById(
-        "save-edit-btn"
-    );
-
+    document.getElementById("save-edit-btn");
 
 const cancelEditButton =
-    document.getElementById(
-        "cancel-edit-btn"
-    );
-
+    document.getElementById("cancel-edit-btn");
 
 const editMessage =
-    document.getElementById(
-        "edit-message"
-    );
+    document.getElementById("edit-message");
 
 
 let editingGameId = null;
@@ -174,7 +151,6 @@ loginButton.addEventListener(
         const userEmail =
             email.value.trim();
 
-
         const userPassword =
             password.value;
 
@@ -188,15 +164,12 @@ loginButton.addEventListener(
                 "Please enter email and password.";
 
             return;
-
         }
 
 
         try {
 
-            loginButton.disabled =
-                true;
-
+            loginButton.disabled = true;
 
             loginButton.textContent =
                 "Logging in...";
@@ -217,15 +190,12 @@ loginButton.addEventListener(
 
             console.error(error);
 
-
             loginMessage.textContent =
                 "Login failed. Check your email and password.";
 
         } finally {
 
-            loginButton.disabled =
-                false;
-
+            loginButton.disabled = false;
 
             loginButton.textContent =
                 "Login";
@@ -250,10 +220,8 @@ onAuthStateChanged(
             loginSection.style.display =
                 "none";
 
-
             adminSection.style.display =
                 "block";
-
 
             loadGames();
 
@@ -262,10 +230,8 @@ onAuthStateChanged(
             loginSection.style.display =
                 "block";
 
-
             adminSection.style.display =
                 "none";
-
 
             closeEdit();
 
@@ -284,10 +250,213 @@ logoutButton.addEventListener(
     "click",
     async () => {
 
-        await signOut(auth);
+        try {
+
+            await signOut(auth);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
 
     }
 );
+
+
+
+/* ========================================
+   ADD IMAGE PREVIEW
+======================================== */
+
+gameIconFile.addEventListener(
+    "change",
+    () => {
+
+        const file =
+            gameIconFile.files[0];
+
+
+        if (!file) {
+
+            gameIconPreview.style.display =
+                "none";
+
+            gameIconPreview.src = "";
+
+            return;
+        }
+
+
+        if (
+            !file.type.startsWith("image/")
+        ) {
+
+            gameMessage.textContent =
+                "Please select a valid image.";
+
+            gameIconFile.value = "";
+
+            return;
+        }
+
+
+        const previewURL =
+            URL.createObjectURL(file);
+
+
+        gameIconPreview.src =
+            previewURL;
+
+        gameIconPreview.style.display =
+            "block";
+
+    }
+);
+
+
+
+/* ========================================
+   EDIT IMAGE PREVIEW
+======================================== */
+
+editGameIconFile.addEventListener(
+    "change",
+    () => {
+
+        const file =
+            editGameIconFile.files[0];
+
+
+        if (!file) {
+            return;
+        }
+
+
+        if (
+            !file.type.startsWith("image/")
+        ) {
+
+            editMessage.textContent =
+                "Please select a valid image.";
+
+            editGameIconFile.value = "";
+
+            return;
+        }
+
+
+        const previewURL =
+            URL.createObjectURL(file);
+
+
+        editPreviewImage.src =
+            previewURL;
+
+        editPreviewImage.style.display =
+            "block";
+
+    }
+);
+
+
+
+/* ========================================
+   UPLOAD IMAGE
+======================================== */
+
+async function uploadGameIcon(file) {
+
+    if (!file) {
+
+        throw new Error(
+            "No image selected."
+        );
+
+    }
+
+
+    if (
+        !file.type.startsWith("image/")
+    ) {
+
+        throw new Error(
+            "Please select a valid image."
+        );
+
+    }
+
+
+    /*
+       Maximum size: 5 MB
+    */
+
+    if (
+        file.size > 5 * 1024 * 1024
+    ) {
+
+        throw new Error(
+            "Image must be smaller than 5 MB."
+        );
+
+    }
+
+
+    /*
+       Get file extension
+    */
+
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    /*
+       Generate unique filename
+    */
+
+    const fileName =
+        `${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2, 10)}.${extension}`;
+
+
+    /*
+       Storage location
+    */
+
+    const imageRef =
+        ref(
+            storage,
+            `game-icons/${fileName}`
+        );
+
+
+    /*
+       Upload
+    */
+
+    await uploadBytes(
+        imageRef,
+        file
+    );
+
+
+    /*
+       Get URL
+    */
+
+    const downloadURL =
+        await getDownloadURL(
+            imageRef
+        );
+
+
+    return downloadURL;
+
+}
 
 
 
@@ -302,47 +471,50 @@ addGameButton.addEventListener(
         const name =
             gameName.value.trim();
 
-
         const version =
             gameVersion.value.trim();
-
 
         const description =
             gameDescription.value.trim();
 
-
-        const icon =
-            gameIcon.value.trim();
-
-
         const download =
             gameDownload.value.trim();
+
+        const imageFile =
+            gameIconFile.files[0];
 
 
         if (
             !name ||
             !version ||
             !description ||
-            !icon ||
-            !download
+            !download ||
+            !imageFile
         ) {
 
             gameMessage.textContent =
-                "Please fill in all fields.";
+                "Please fill in all fields and select an image.";
 
             return;
-
         }
 
 
         try {
 
-            addGameButton.disabled =
-                true;
+            addGameButton.disabled = true;
+
+            addGameButton.textContent =
+                "Uploading image...";
+
+
+            const icon =
+                await uploadGameIcon(
+                    imageFile
+                );
 
 
             addGameButton.textContent =
-                "Adding...";
+                "Adding game...";
 
 
             await addDoc(
@@ -352,15 +524,20 @@ addGameButton.addEventListener(
                 ),
                 {
 
-                    name: name,
+                    name:
+                        name,
 
-                    version: version,
+                    version:
+                        version,
 
-                    description: description,
+                    description:
+                        description,
 
-                    icon: icon,
+                    icon:
+                        icon,
 
-                    download: download,
+                    download:
+                        download,
 
                     createdAt:
                         serverTimestamp()
@@ -379,9 +556,15 @@ addGameButton.addEventListener(
 
             gameDescription.value = "";
 
-            gameIcon.value = "";
-
             gameDownload.value = "";
+
+            gameIconFile.value = "";
+
+
+            gameIconPreview.src = "";
+
+            gameIconPreview.style.display =
+                "none";
 
 
             await loadGames();
@@ -389,17 +572,20 @@ addGameButton.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "ADD GAME ERROR:",
+                error
+            );
 
 
             gameMessage.textContent =
+                error.message ||
                 "Failed to add game.";
 
         } finally {
 
             addGameButton.disabled =
                 false;
-
 
             addGameButton.textContent =
                 "Add Game";
@@ -432,7 +618,8 @@ async function loadGames() {
             );
 
 
-        adminGames.innerHTML = "";
+        adminGames.innerHTML =
+            "";
 
 
         adminGameCount.textContent =
@@ -466,58 +653,141 @@ async function loadGames() {
                     "admin-game";
 
 
-                item.innerHTML = `
-
-                    <div
-                        class="admin-game-info"
-                    >
-
-                        <img
-                            src="${game.icon || "https://placehold.co/100"}"
-                            alt="${game.name || "Game"}"
-                        >
-
-                        <div>
-
-                            <h3>
-                                ${game.name || "Unnamed Game"}
-                            </h3>
-
-                            <p>
-                                Version
-                                ${game.version || "Unknown"}
-                            </p>
-
-                        </div>
-
-                    </div>
+                const info =
+                    document.createElement(
+                        "div"
+                    );
 
 
-                    <div
-                        class="admin-game-actions"
-                    >
-
-                        <button
-                            class="edit-btn"
-                            data-id="${gameDoc.id}"
-                        >
-                            Edit
-                        </button>
+                info.className =
+                    "admin-game-info";
 
 
-                        <button
-                            class="delete-btn"
-                            data-id="${gameDoc.id}"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                `;
+                const image =
+                    document.createElement(
+                        "img"
+                    );
 
 
-                adminGames.appendChild(item);
+                image.src =
+                    game.icon ||
+                    "https://placehold.co/100";
+
+
+                image.alt =
+                    game.name ||
+                    "Game";
+
+
+                image.onerror =
+                    () => {
+
+                        image.src =
+                            "https://placehold.co/100";
+
+                    };
+
+
+                const text =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+
+                title.textContent =
+                    game.name ||
+                    "Unnamed Game";
+
+
+                const version =
+                    document.createElement(
+                        "p"
+                    );
+
+
+                version.textContent =
+                    `Version ${game.version || "Unknown"}`;
+
+
+                text.appendChild(title);
+
+                text.appendChild(version);
+
+
+                info.appendChild(image);
+
+                info.appendChild(text);
+
+
+                const actions =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                actions.className =
+                    "admin-game-actions";
+
+
+                const editButton =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                editButton.className =
+                    "edit-btn";
+
+                editButton.dataset.id =
+                    gameDoc.id;
+
+                editButton.textContent =
+                    "Edit";
+
+
+                const deleteButton =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                deleteButton.className =
+                    "delete-btn";
+
+                deleteButton.dataset.id =
+                    gameDoc.id;
+
+                deleteButton.textContent =
+                    "Delete";
+
+
+                actions.appendChild(
+                    editButton
+                );
+
+                actions.appendChild(
+                    deleteButton
+                );
+
+
+                item.appendChild(
+                    info
+                );
+
+                item.appendChild(
+                    actions
+                );
+
+
+                adminGames.appendChild(
+                    item
+                );
 
             }
         );
@@ -528,7 +798,10 @@ async function loadGames() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "LOAD GAMES ERROR:",
+            error
+        );
 
 
         adminGames.innerHTML =
@@ -541,53 +814,56 @@ async function loadGames() {
 
 
 /* ========================================
-   BUTTON EVENTS
+   GAME BUTTONS
 ======================================== */
 
 function attachGameButtons() {
 
-
     document
         .querySelectorAll(".edit-btn")
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    openEdit(
-                        button.dataset.id
-                    );
+                        openEdit(
+                            button.dataset.id
+                        );
 
-                }
-            );
+                    }
+                );
 
-        });
+            }
+        );
 
 
     document
         .querySelectorAll(".delete-btn")
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    deleteGame(
-                        button.dataset.id
-                    );
+                        deleteGame(
+                            button.dataset.id
+                        );
 
-                }
-            );
+                    }
+                );
 
-        });
+            }
+        );
 
 }
 
 
 
 /* ========================================
-   OPEN EDIT FORM
+   OPEN EDIT
 ======================================== */
 
 async function openEdit(gameId) {
@@ -603,7 +879,9 @@ async function openEdit(gameId) {
 
 
         const gameSnapshot =
-            await getDoc(gameRef);
+            await getDoc(
+                gameRef
+            );
 
 
         if (
@@ -639,15 +917,39 @@ async function openEdit(gameId) {
             game.description || "";
 
 
-        editGameIcon.value =
-            game.icon || "";
-
-
         editGameDownload.value =
             game.download || "";
 
 
-        updatePreview();
+        /*
+           Show current icon
+        */
+
+        if (game.icon) {
+
+            editPreviewImage.src =
+                game.icon;
+
+            editPreviewImage.style.display =
+                "block";
+
+        } else {
+
+            editPreviewImage.src =
+                "";
+
+            editPreviewImage.style.display =
+                "none";
+
+        }
+
+
+        /*
+           Clear replacement image
+        */
+
+        editGameIconFile.value =
+            "";
 
 
         editMessage.textContent =
@@ -662,6 +964,7 @@ async function openEdit(gameId) {
             behavior: "smooth",
             block: "center"
         });
+
 
     } catch (error) {
 
@@ -679,43 +982,6 @@ async function openEdit(gameId) {
 
 
 /* ========================================
-   IMAGE PREVIEW
-======================================== */
-
-editGameIcon.addEventListener(
-    "input",
-    updatePreview
-);
-
-
-function updatePreview() {
-
-    const url =
-        editGameIcon.value.trim();
-
-
-    if (!url) {
-
-        editPreviewImage.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    editPreviewImage.src =
-        url;
-
-
-    editPreviewImage.style.display =
-        "block";
-
-}
-
-
-
-/* ========================================
    SAVE EDIT
 ======================================== */
 
@@ -724,27 +990,18 @@ saveEditButton.addEventListener(
     async () => {
 
         if (!editingGameId) {
-
             return;
-
         }
 
 
         const name =
             editGameName.value.trim();
 
-
         const version =
             editGameVersion.value.trim();
 
-
         const description =
             editGameDescription.value.trim();
-
-
-        const icon =
-            editGameIcon.value.trim();
-
 
         const download =
             editGameDownload.value.trim();
@@ -754,7 +1011,6 @@ saveEditButton.addEventListener(
             !name ||
             !version ||
             !description ||
-            !icon ||
             !download
         ) {
 
@@ -762,7 +1018,6 @@ saveEditButton.addEventListener(
                 "Please fill in all fields.";
 
             return;
-
         }
 
 
@@ -770,7 +1025,6 @@ saveEditButton.addEventListener(
 
             saveEditButton.disabled =
                 true;
-
 
             saveEditButton.textContent =
                 "Saving...";
@@ -784,19 +1038,84 @@ saveEditButton.addEventListener(
                 );
 
 
+            const gameSnapshot =
+                await getDoc(
+                    gameRef
+                );
+
+
+            if (
+                !gameSnapshot.exists()
+            ) {
+
+                editMessage.textContent =
+                    "Game not found.";
+
+                return;
+
+            }
+
+
+            const currentGame =
+                gameSnapshot.data();
+
+
+            /*
+               Keep existing icon
+            */
+
+            let icon =
+                currentGame.icon || "";
+
+
+            /*
+               Check for new image
+            */
+
+            const newImage =
+                editGameIconFile.files[0];
+
+
+            if (newImage) {
+
+                saveEditButton.textContent =
+                    "Uploading image...";
+
+
+                icon =
+                    await uploadGameIcon(
+                        newImage
+                    );
+
+            }
+
+
+            /*
+               Update Firestore
+            */
+
+            saveEditButton.textContent =
+                "Saving...";
+
+
             await updateDoc(
                 gameRef,
                 {
 
-                    name: name,
+                    name:
+                        name,
 
-                    version: version,
+                    version:
+                        version,
 
-                    description: description,
+                    description:
+                        description,
 
-                    icon: icon,
+                    icon:
+                        icon,
 
-                    download: download
+                    download:
+                        download
 
                 }
             );
@@ -810,24 +1129,29 @@ saveEditButton.addEventListener(
 
 
             setTimeout(
-                closeEdit,
+                () => {
+                    closeEdit();
+                },
                 1000
             );
 
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "EDIT GAME ERROR:",
+                error
+            );
 
 
             editMessage.textContent =
+                error.message ||
                 "Failed to update game.";
 
         } finally {
 
             saveEditButton.disabled =
                 false;
-
 
             saveEditButton.textContent =
                 "Save Changes";
@@ -840,7 +1164,7 @@ saveEditButton.addEventListener(
 
 
 /* ========================================
-   CANCEL EDIT
+   CLOSE EDIT
 ======================================== */
 
 cancelEditButton.addEventListener(
@@ -851,7 +1175,8 @@ cancelEditButton.addEventListener(
 
 function closeEdit() {
 
-    editingGameId = null;
+    editingGameId =
+        null;
 
 
     editSection.style.display =
@@ -860,6 +1185,14 @@ function closeEdit() {
 
     editMessage.textContent =
         "";
+
+
+    if (editGameIconFile) {
+
+        editGameIconFile.value =
+            "";
+
+    }
 
 }
 
@@ -878,9 +1211,7 @@ async function deleteGame(gameId) {
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
@@ -900,7 +1231,10 @@ async function deleteGame(gameId) {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "DELETE GAME ERROR:",
+            error
+        );
 
 
         alert(
