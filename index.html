@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,71 +12,92 @@
 
     <title>GameHub</title>
 
+    <meta
+        name="description"
+        content="Discover and download your favorite games."
+    >
+
     <link
         rel="stylesheet"
         href="./style.css"
     >
+
 </head>
+
 
 <body>
 
-    <header class="navbar">
+    <!-- HEADER -->
 
-        <a href="./index.html" class="logo">
-            🎮 GameHub
-        </a>
+    <header class="site-header">
 
-        <nav>
-            <a href="./index.html">Home</a>
-            <a href="#games">Games</a>
-            <a href="./admin.html">Admin</a>
-        </nav>
+        <div class="header-inner">
+
+            <a
+                href="./"
+                class="logo"
+            >
+                ◈ GameHub
+            </a>
+
+        </div>
 
     </header>
 
 
-    <main>
 
-        <section class="hero">
+    <!-- HERO -->
 
-            <h1>GameHub</h1>
+    <section class="hero">
 
-            <p>
-                Discover and download your favorite games.
+        <h1>
+            GameHub
+        </h1>
+
+        <p>
+            Discover and download your favorite games.
+        </p>
+
+    </section>
+
+
+
+    <!-- GAMES -->
+
+    <main class="container">
+
+        <div class="section-header">
+
+            <h2>
+                Games
+            </h2>
+
+            <span id="game-count">
+                0 games
+            </span>
+
+        </div>
+
+
+        <div id="games">
+
+            <p class="loading">
+                Loading games...
             </p>
 
-        </section>
-
-
-        <section class="content">
-
-            <div class="section-header">
-
-                <h2>Games</h2>
-
-                <span id="game-count">
-                    Loading...
-                </span>
-
-            </div>
-
-
-            <section id="games">
-
-                <p class="loading">
-                    Loading games...
-                </p>
-
-            </section>
-
-        </section>
+        </div>
 
     </main>
 
 
+
+    <!-- FOOTER -->
+
     <footer>
 
-        <strong>GameHub</strong>
+        <p>
+            GameHub
+        </p>
 
         <p>
             Discover. Download. Play.
@@ -86,6 +108,7 @@
         </p>
 
     </footer>
+
 
 
     <script
