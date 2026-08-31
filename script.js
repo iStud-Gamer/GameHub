@@ -1,3 +1,13 @@
+import {
+    db
+} from "./firebase.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
 const gamesContainer =
     document.getElementById("games");
 
@@ -5,28 +15,39 @@ const gameCount =
     document.getElementById("game-count");
 
 
-let games = [];
-
-
 async function loadGames() {
 
     try {
 
-        const response =
-            await fetch("./games.json");
+        gamesContainer.innerHTML = `
+            <p class="loading">
+                Loading games...
+            </p>
+        `;
 
 
-        if (!response.ok) {
-
-            throw new Error(
-                "Could not load games.json"
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "games"
+                )
             );
 
-        }
+
+        const games = [];
 
 
-        games =
-            await response.json();
+        snapshot.forEach(
+            gameDoc => {
+
+                games.push({
+                    id: gameDoc.id,
+                    ...gameDoc.data()
+                });
+
+            }
+        );
 
 
         displayGames(games);
@@ -34,7 +55,14 @@ async function loadGames() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error loading games:",
+            error
+        );
+
+
+        gameCount.textContent =
+            "0 games";
 
 
         gamesContainer.innerHTML = `
@@ -45,12 +73,13 @@ async function loadGames() {
                     Couldn't load games.
                 </p>
 
+                <small>
+                    Please try again later.
+                </small>
+
             </div>
 
         `;
-
-        gameCount.textContent =
-            "0 games";
 
     }
 
@@ -58,16 +87,16 @@ async function loadGames() {
 
 
 
-function displayGames(list) {
+function displayGames(games) {
 
     gamesContainer.innerHTML = "";
 
 
     gameCount.textContent =
-        `${list.length} games`;
+        `${games.length} games`;
 
 
-    if (list.length === 0) {
+    if (games.length === 0) {
 
         gamesContainer.innerHTML = `
 
@@ -86,68 +115,73 @@ function displayGames(list) {
     }
 
 
+    games.forEach(
+        game => {
 
-    list.forEach(game => {
-
-        const card =
-            document.createElement("article");
-
-
-        card.className =
-            "game-card";
+            const card =
+                document.createElement(
+                    "article"
+                );
 
 
-        card.innerHTML = `
-
-            <div class="game-icon-wrapper">
-
-                <img
-                    src="${game.icon}"
-                    alt="${game.name}"
-                    class="game-icon"
-                    loading="lazy"
-                >
-
-            </div>
+            card.className =
+                "game-card";
 
 
-            <div class="game-content">
+            card.innerHTML = `
 
-                <div class="game-title-row">
+                <div class="game-icon-wrapper">
 
-                    <h3>
-                        ${game.name}
-                    </h3>
-
-                    <span class="version">
-                        v${game.version}
-                    </span>
+                    <img
+                        src="${game.icon || ""}"
+                        alt="${game.name || "Game"}"
+                        class="game-icon"
+                        loading="lazy"
+                    >
 
                 </div>
 
 
-                <p class="game-description">
-                    ${game.description}
-                </p>
+                <div class="game-content">
+
+                    <div class="game-title-row">
+
+                        <h3>
+                            ${game.name || "Unnamed Game"}
+                        </h3>
+
+                        <span class="version">
+                            v${game.version || "1.0"}
+                        </span>
+
+                    </div>
 
 
-                <a
-                    href="${game.download}"
-                    class="download-btn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Download
-                </a>
-
-            </div>
-
-        `;
+                    <p class="game-description">
+                        ${game.description || ""}
+                    </p>
 
 
-        gamesContainer.appendChild(card);
+                    <a
+                        href="${game.download || "#"}"
+                        class="download-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Download
+                    </a>
 
-    });
+                </div>
+
+            `;
+
+
+            gamesContainer.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
