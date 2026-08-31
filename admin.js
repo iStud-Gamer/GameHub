@@ -1,7 +1,6 @@
 import {
     auth,
-    db,
-    storage
+    db
 } from "./firebase.js";
 
 
@@ -24,11 +23,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+/* ========================================
+   IMGBB
+======================================== */
+
+const IMGBB_API_KEY =
+    "1b233f965f549946e66f1f0ada055aff";
 
 
 
@@ -115,28 +116,43 @@ const editGameVersion =
     document.getElementById("edit-game-version");
 
 const editGameDescription =
-    document.getElementById("edit-game-description");
+    document.getElementById(
+        "edit-game-description"
+    );
 
 const editGameIconFile =
-    document.getElementById("edit-game-icon-file");
+    document.getElementById(
+        "edit-game-icon-file"
+    );
 
 const editPreviewImage =
-    document.getElementById("edit-preview-image");
+    document.getElementById(
+        "edit-preview-image"
+    );
 
 const editGameDownload =
-    document.getElementById("edit-game-download");
+    document.getElementById(
+        "edit-game-download"
+    );
 
 const saveEditButton =
-    document.getElementById("save-edit-btn");
+    document.getElementById(
+        "save-edit-btn"
+    );
 
 const cancelEditButton =
-    document.getElementById("cancel-edit-btn");
+    document.getElementById(
+        "cancel-edit-btn"
+    );
 
 const editMessage =
-    document.getElementById("edit-message");
+    document.getElementById(
+        "edit-message"
+    );
 
 
-let editingGameId = null;
+let editingGameId =
+    null;
 
 
 
@@ -169,7 +185,8 @@ loginButton.addEventListener(
 
         try {
 
-            loginButton.disabled = true;
+            loginButton.disabled =
+                true;
 
             loginButton.textContent =
                 "Logging in...";
@@ -195,7 +212,8 @@ loginButton.addEventListener(
 
         } finally {
 
-            loginButton.disabled = false;
+            loginButton.disabled =
+                false;
 
             loginButton.textContent =
                 "Login";
@@ -266,7 +284,7 @@ logoutButton.addEventListener(
 
 
 /* ========================================
-   ADD IMAGE PREVIEW
+   IMAGE PREVIEW - ADD
 ======================================== */
 
 gameIconFile.addEventListener(
@@ -279,10 +297,11 @@ gameIconFile.addEventListener(
 
         if (!file) {
 
+            gameIconPreview.src =
+                "";
+
             gameIconPreview.style.display =
                 "none";
-
-            gameIconPreview.src = "";
 
             return;
         }
@@ -295,7 +314,8 @@ gameIconFile.addEventListener(
             gameMessage.textContent =
                 "Please select a valid image.";
 
-            gameIconFile.value = "";
+            gameIconFile.value =
+                "";
 
             return;
         }
@@ -317,7 +337,7 @@ gameIconFile.addEventListener(
 
 
 /* ========================================
-   EDIT IMAGE PREVIEW
+   IMAGE PREVIEW - EDIT
 ======================================== */
 
 editGameIconFile.addEventListener(
@@ -340,7 +360,8 @@ editGameIconFile.addEventListener(
             editMessage.textContent =
                 "Please select a valid image.";
 
-            editGameIconFile.value = "";
+            editGameIconFile.value =
+                "";
 
             return;
         }
@@ -362,10 +383,10 @@ editGameIconFile.addEventListener(
 
 
 /* ========================================
-   UPLOAD IMAGE
+   UPLOAD IMAGE TO IMGBB
 ======================================== */
 
-async function uploadGameIcon(file) {
+async function uploadToImgBB(file) {
 
     if (!file) {
 
@@ -388,73 +409,90 @@ async function uploadGameIcon(file) {
 
 
     /*
-       Maximum size: 5 MB
+       32 MB safety limit
     */
 
     if (
-        file.size > 5 * 1024 * 1024
+        file.size > 32 * 1024 * 1024
     ) {
 
         throw new Error(
-            "Image must be smaller than 5 MB."
+            "Image must be smaller than 32 MB."
+        );
+
+    }
+
+
+    if (
+        IMGBB_API_KEY ===
+        "YOUR_IMGBB_API_KEY"
+    ) {
+
+        throw new Error(
+            "ImgBB API key has not been added."
+        );
+
+    }
+
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "key",
+        IMGBB_API_KEY
+    );
+
+
+    formData.append(
+        "image",
+        file
+    );
+
+
+    const response =
+        await fetch(
+            "https://api.imgbb.com/1/upload",
+            {
+                method:
+                    "POST",
+
+                body:
+                    formData
+            }
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if (
+        !response.ok ||
+        !data.success
+    ) {
+
+        console.error(
+            "ImgBB error:",
+            data
+        );
+
+
+        throw new Error(
+            data?.error?.message ||
+            "ImgBB upload failed."
         );
 
     }
 
 
     /*
-       Get file extension
+       Direct image URL
     */
 
-    const extension =
-        file.name
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-
-    /*
-       Generate unique filename
-    */
-
-    const fileName =
-        `${Date.now()}-${Math.random()
-            .toString(36)
-            .substring(2, 10)}.${extension}`;
-
-
-    /*
-       Storage location
-    */
-
-    const imageRef =
-        ref(
-            storage,
-            `game-icons/${fileName}`
-        );
-
-
-    /*
-       Upload
-    */
-
-    await uploadBytes(
-        imageRef,
-        file
-    );
-
-
-    /*
-       Get URL
-    */
-
-    const downloadURL =
-        await getDownloadURL(
-            imageRef
-        );
-
-
-    return downloadURL;
+    return data.data.display_url ||
+        data.data.url;
 
 }
 
@@ -501,14 +539,19 @@ addGameButton.addEventListener(
 
         try {
 
-            addGameButton.disabled = true;
+            addGameButton.disabled =
+                true;
 
             addGameButton.textContent =
                 "Uploading image...";
 
 
+            /*
+               Upload to ImgBB
+            */
+
             const icon =
-                await uploadGameIcon(
+                await uploadToImgBB(
                     imageFile
                 );
 
@@ -516,6 +559,10 @@ addGameButton.addEventListener(
             addGameButton.textContent =
                 "Adding game...";
 
+
+            /*
+               Save URL to Firestore
+            */
 
             await addDoc(
                 collection(
@@ -550,18 +597,28 @@ addGameButton.addEventListener(
                 "Game added successfully!";
 
 
-            gameName.value = "";
+            /*
+               Clear form
+            */
 
-            gameVersion.value = "";
+            gameName.value =
+                "";
 
-            gameDescription.value = "";
+            gameVersion.value =
+                "";
 
-            gameDownload.value = "";
+            gameDescription.value =
+                "";
 
-            gameIconFile.value = "";
+            gameDownload.value =
+                "";
+
+            gameIconFile.value =
+                "";
 
 
-            gameIconPreview.src = "";
+            gameIconPreview.src =
+                "";
 
             gameIconPreview.style.display =
                 "none";
@@ -632,7 +689,6 @@ async function loadGames() {
                 "<p>No games added yet.</p>";
 
             return;
-
         }
 
 
@@ -715,14 +771,22 @@ async function loadGames() {
                     `Version ${game.version || "Unknown"}`;
 
 
-                text.appendChild(title);
+                text.appendChild(
+                    title
+                );
 
-                text.appendChild(version);
+                text.appendChild(
+                    version
+                );
 
 
-                info.appendChild(image);
+                info.appendChild(
+                    image
+                );
 
-                info.appendChild(text);
+                info.appendChild(
+                    text
+                );
 
 
                 const actions =
@@ -814,7 +878,7 @@ async function loadGames() {
 
 
 /* ========================================
-   GAME BUTTONS
+   BUTTON EVENTS
 ======================================== */
 
 function attachGameButtons() {
@@ -893,7 +957,6 @@ async function openEdit(gameId) {
             );
 
             return;
-
         }
 
 
@@ -922,7 +985,7 @@ async function openEdit(gameId) {
 
 
         /*
-           Show current icon
+           Show existing image
         */
 
         if (game.icon) {
@@ -945,7 +1008,7 @@ async function openEdit(gameId) {
 
 
         /*
-           Clear replacement image
+           Clear new image
         */
 
         editGameIconFile.value =
@@ -961,8 +1024,11 @@ async function openEdit(gameId) {
 
 
         editSection.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
+            behavior:
+                "smooth",
+
+            block:
+                "center"
         });
 
 
@@ -1052,7 +1118,6 @@ saveEditButton.addEventListener(
                     "Game not found.";
 
                 return;
-
             }
 
 
@@ -1061,15 +1126,16 @@ saveEditButton.addEventListener(
 
 
             /*
-               Keep existing icon
+               Keep current image
             */
 
             let icon =
-                currentGame.icon || "";
+                currentGame.icon ||
+                "";
 
 
             /*
-               Check for new image
+               Replace image if selected
             */
 
             const newImage =
@@ -1083,16 +1149,12 @@ saveEditButton.addEventListener(
 
 
                 icon =
-                    await uploadGameIcon(
+                    await uploadToImgBB(
                         newImage
                     );
 
             }
 
-
-            /*
-               Update Firestore
-            */
 
             saveEditButton.textContent =
                 "Saving...";
