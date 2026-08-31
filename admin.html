@@ -24,16 +24,13 @@
 
     <main class="admin-container">
 
+        <!-- HEADER -->
 
         <div class="admin-header">
 
-            <h1>
-                GameHub Admin
-            </h1>
+            <h1>GameHub Admin</h1>
 
-            <p>
-                Manage your games
-            </p>
+            <p>Manage your games</p>
 
         </div>
 
@@ -45,9 +42,7 @@
             class="admin-box"
         >
 
-            <h2>
-                Admin Login
-            </h2>
+            <h2>Admin Login</h2>
 
 
             <input
@@ -76,114 +71,227 @@
         </section>
 
 
+
         <!-- ADMIN PANEL -->
 
         <section
             id="admin-section"
-            class="admin-box"
             style="display: none;"
         >
 
-            <div class="admin-top">
 
-                <h2>
-                    Add Game
-                </h2>
+            <!-- ADD GAME -->
+
+            <div class="admin-box">
+
+                <div class="admin-top">
+
+                    <h2>Add Game</h2>
 
 
-                <button
-                    id="logout-btn"
-                    class="logout-btn"
+                    <button
+                        id="logout-btn"
+                        class="logout-btn"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="game-name"
+                    placeholder="Game name"
                 >
-                    Logout
+
+
+                <input
+                    type="text"
+                    id="game-version"
+                    placeholder="Version"
+                >
+
+
+                <textarea
+                    id="game-description"
+                    placeholder="Game description"
+                ></textarea>
+
+
+                <input
+                    type="url"
+                    id="game-icon"
+                    placeholder="Game icon URL"
+                >
+
+
+                <input
+                    type="url"
+                    id="game-download"
+                    placeholder="Download URL"
+                >
+
+
+                <button id="add-game-btn">
+                    Add Game
                 </button>
 
+
+                <p id="game-message"></p>
+
             </div>
 
 
-            <input
-                type="text"
-                id="game-name"
-                placeholder="Game name"
+
+            <!-- EDIT GAME -->
+
+            <div
+                id="edit-section"
+                class="admin-box edit-section"
+                style="display: none;"
             >
 
+                <div class="admin-top">
 
-            <input
-                type="text"
-                id="game-version"
-                placeholder="Version"
+                    <h2>Edit Game</h2>
+
+
+                    <button
+                        id="cancel-edit-btn"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+
+                <label>
+                    Game Name
+                </label>
+
+
+                <input
+                    type="text"
+                    id="edit-game-name"
+                    placeholder="Game name"
+                >
+
+
+                <label>
+                    Version
+                </label>
+
+
+                <input
+                    type="text"
+                    id="edit-game-version"
+                    placeholder="Version"
+                >
+
+
+                <label>
+                    Description
+                </label>
+
+
+                <textarea
+                    id="edit-game-description"
+                    placeholder="Game description"
+                ></textarea>
+
+
+                <label>
+                    Icon URL
+                </label>
+
+
+                <input
+                    type="url"
+                    id="edit-game-icon"
+                    placeholder="Game icon URL"
+                >
+
+
+                <div class="edit-preview">
+
+                    <img
+                        id="edit-preview-image"
+                        src=""
+                        alt="Game icon preview"
+                    >
+
+                </div>
+
+
+                <label>
+                    Download URL
+                </label>
+
+
+                <input
+                    type="url"
+                    id="edit-game-download"
+                    placeholder="Download URL"
+                >
+
+
+                <button id="save-edit-btn">
+                    Save Changes
+                </button>
+
+
+                <p id="edit-message"></p>
+
+            </div>
+
+
+
+            <!-- EXISTING GAMES -->
+
+            <div
+                id="games-section"
+                class="admin-box"
             >
 
+                <div class="admin-top">
 
-            <textarea
-                id="game-description"
-                placeholder="Game description"
-            ></textarea>
-
-
-            <input
-                type="url"
-                id="game-icon"
-                placeholder="Game icon URL"
-            >
+                    <h2>
+                        Existing Games
+                    </h2>
 
 
-            <input
-                type="url"
-                id="game-download"
-                placeholder="Download URL"
-            >
+                    <span id="admin-game-count">
+                    </span>
+
+                </div>
 
 
-            <button id="add-game-btn">
-                Add Game
-            </button>
+                <div id="admin-games">
 
+                    <p>
+                        Loading games...
+                    </p>
 
-            <p id="game-message"></p>
+                </div>
+
+            </div>
+
 
         </section>
-
-
-        <!-- EXISTING GAMES -->
-
-        <section
-            id="games-section"
-            class="admin-box"
-            style="display: none;"
-        >
-
-            <div class="admin-top">
-
-                <h2>
-                    Existing Games
-                </h2>
-
-
-                <span id="admin-game-count">
-                </span>
-
-            </div>
-
-
-            <div id="admin-games">
-
-                <p>
-                    Loading games...
-                </p>
-
-            </div>
-
-        </section>
-
 
     </main>
 
+
+
+    <!-- IMPORTANT -->
 
     <script
         type="module"
         src="./admin.js"
     ></script>
+
 
 </body>
 
