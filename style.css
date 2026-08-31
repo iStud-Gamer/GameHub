@@ -1,50 +1,390 @@
-/* ========================================
-   EDIT FORM
-======================================== */
+/* =========================================
+   GAMEHUB - MAIN STYLE
+========================================= */
 
-.edit-section {
-    border-color: #454b58;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0b0f14;
+    color: #ffffff;
+    min-height: 100vh;
 }
 
 
-.edit-section label {
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.admin-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.admin-header p {
+    color: #8d96a5;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   BOXES
+========================================= */
+
+.admin-box {
+    background: #121820;
+    border: 1px solid #252d38;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================
+   BOX HEADER
+========================================= */
+
+.admin-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.admin-top h2 {
+    font-size: 21px;
+    color: #ffffff;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.admin-box input,
+.admin-box textarea {
+    width: 100%;
     display: block;
 
-    margin:
-        5px 0 7px;
+    background: #0c1117;
+    color: #ffffff;
 
-    color: #a5aab4;
+    border: 1px solid #2a3440;
+    border-radius: 10px;
 
-    font-size: 13px;
+    padding: 13px 14px;
 
-    font-weight: 600;
+    margin-bottom: 14px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.admin-box textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.admin-box input::placeholder,
+.admin-box textarea::placeholder {
+    color: #697382;
+}
+
+.admin-box input:focus,
+.admin-box textarea:focus {
+    border-color: #6578ff;
+    box-shadow: 0 0 0 3px rgba(101, 120, 255, 0.12);
 }
 
 
-.cancel-btn {
-    background: #292e36 !important;
+/* =========================================
+   LABEL
+========================================= */
 
+.admin-box label {
+    display: block;
+    color: #aab3c0;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 5px 0 7px;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.admin-box button {
+    border: none;
+    border-radius: 10px;
+
+    padding: 12px 18px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    background: #5869f2;
+    color: #ffffff;
+
+    transition:
+        transform 0.15s,
+        opacity 0.15s,
+        background 0.15s;
+}
+
+.admin-box button:hover {
+    background: #6878ff;
+    transform: translateY(-1px);
+}
+
+.admin-box button:active {
+    transform: translateY(0);
+}
+
+.admin-box button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-btn {
+    background: #242b35 !important;
     color: #ffffff !important;
 }
 
-
-.edit-preview {
-    margin:
-        5px 0 20px;
+.logout-btn:hover {
+    background: #303844 !important;
 }
 
 
+/* =========================================
+   CANCEL
+========================================= */
+
+.cancel-btn {
+    background: #242b35 !important;
+    color: #ffffff !important;
+}
+
+.cancel-btn:hover {
+    background: #303844 !important;
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+#login-message,
+#game-message,
+#edit-message {
+    margin-top: 15px;
+    color: #8f9aaa;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   EXISTING GAMES
+========================================= */
+
+#admin-games {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-game {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 14px;
+
+    background: #0c1117;
+
+    border: 1px solid #242c37;
+
+    border-radius: 13px;
+}
+
+.admin-game-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    min-width: 0;
+}
+
+.admin-game-info img {
+    width: 65px;
+    height: 65px;
+
+    object-fit: cover;
+
+    border-radius: 13px;
+
+    background: #1b222c;
+
+    border: 1px solid #303946;
+
+    flex-shrink: 0;
+}
+
+.admin-game-info h3 {
+    font-size: 16px;
+    color: #ffffff;
+
+    margin-bottom: 5px;
+}
+
+.admin-game-info p {
+    color: #7f8998;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   GAME ACTIONS
+========================================= */
+
+.admin-game-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.admin-game-actions .edit-btn {
+    background: #5869f2;
+}
+
+.admin-game-actions .delete-btn {
+    background: #b83f4d;
+}
+
+.admin-game-actions .delete-btn:hover {
+    background: #d34a5a;
+}
+
+
+/* =========================================
+   EDIT SECTION
+========================================= */
+
+.edit-section {
+    border-color: #39445a;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.edit-preview {
+    margin: 4px 0 18px;
+}
+
 .edit-preview img {
     width: 90px;
-
     height: 90px;
 
     object-fit: cover;
 
     border-radius: 15px;
 
-    border:
-        1px solid #303540;
+    border: 1px solid #303946;
+
+    background: #0c1117;
 
     display: none;
+}
+
+
+/* =========================================
+   GAME COUNT
+========================================= */
+
+#admin-game-count {
+    color: #7f8998;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .admin-container {
+        padding:
+            20px 14px 40px;
+    }
+
+    .admin-header h1 {
+        font-size: 27px;
+    }
+
+    .admin-box {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .admin-top {
+        align-items: flex-start;
+    }
+
+    .admin-game {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-game-actions {
+        width: 100%;
+    }
+
+    .admin-game-actions button {
+        flex: 1;
+    }
+
 }
