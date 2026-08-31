@@ -13,9 +13,9 @@
     <title>GameHub Admin</title>
 
     <link
-    rel="stylesheet"
-    href="./admin-style.css"
->
+        rel="stylesheet"
+        href="./admin-style.css"
+    >
 
 </head>
 
@@ -119,11 +119,29 @@
                 ></textarea>
 
 
+                <!-- GAME ICON UPLOAD -->
+
+                <label>
+                    Game Icon
+                </label>
+
+
                 <input
-                    type="url"
-                    id="game-icon"
-                    placeholder="Game icon URL"
+                    type="file"
+                    id="game-icon-file"
+                    accept="image/png,image/jpeg,image/webp"
                 >
+
+
+                <div class="edit-preview">
+
+                    <img
+                        id="game-icon-preview"
+                        src=""
+                        alt="Game icon preview"
+                    >
+
+                </div>
 
 
                 <input
@@ -202,16 +220,11 @@
                 ></textarea>
 
 
+                <!-- EDIT ICON -->
+
                 <label>
-                    Icon URL
+                    Game Icon
                 </label>
-
-
-                <input
-                    type="url"
-                    id="edit-game-icon"
-                    placeholder="Game icon URL"
-                >
 
 
                 <div class="edit-preview">
@@ -223,6 +236,18 @@
                     >
 
                 </div>
+
+
+                <input
+                    type="file"
+                    id="edit-game-icon-file"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+
+
+                <small>
+                    Select a new image only if you want to replace the current icon.
+                </small>
 
 
                 <label>
@@ -284,8 +309,6 @@
     </main>
 
 
-
-    <!-- IMPORTANT -->
 
     <script
         type="module"
